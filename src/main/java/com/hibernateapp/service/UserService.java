@@ -8,9 +8,10 @@ import com.hibernateapp.model.User;
 import java.util.List;
 
 public class UserService {
-    private final UserDAO userDAO = new UserDAOImpl();
+    private final UserDAO userDAO;
 
-    public UserService() {
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     public User findUser(Long id){

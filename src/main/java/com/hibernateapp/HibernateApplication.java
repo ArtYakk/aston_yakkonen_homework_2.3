@@ -1,5 +1,7 @@
 package com.hibernateapp;
 
+import com.hibernateapp.dao.UserDAO;
+import com.hibernateapp.dao.UserDAOImpl;
 import com.hibernateapp.exception.*;
 import com.hibernateapp.model.User;
 import com.hibernateapp.service.UserService;
@@ -11,10 +13,11 @@ public class HibernateApplication {
 
     public static void main(String[] args) {
         HibernateApplication hibernateApplication = new HibernateApplication();
-
+        UserDAO userDAO = new UserDAOImpl();
+        UserService userService = new UserService(userDAO);
         while (true){
             try {
-                hibernateApplication.run();
+                hibernateApplication.run(userService);
             }
             catch (UserNotFoundException e){
                 System.out.println(e.getMessage());
@@ -22,9 +25,9 @@ public class HibernateApplication {
         }
     }
 
-    public void run(){
+    public void run(UserService userService){
         Scanner sc = new Scanner(System.in);
-        UserService userService = new UserService();
+
             System.out.println("""
                     Введите в консоль слово:
                     get - Получить пользователя по id
