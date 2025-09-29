@@ -8,31 +8,31 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.Properties;
+
 
 public class HibernateSessionFactoryUtil {
-    private static final Logger log = LoggerFactory.getLogger(HibernateSessionFactoryUtil.class);
-    private static SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     public HibernateSessionFactoryUtil() {
+        this(new Properties());
     }
 
-    public static SessionFactory getSessionFactory(){
-        if(sessionFactory == null){
-            try{
-                StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                        .configure("hibernate.cfg.xml")
-                        .build();
+    public HibernateSessionFactoryUtil(Properties customProperties) {
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure("hibernate.cfg.xml")
+                .applySettings(customProperties)
+                .build();
 
-                sessionFactory = new MetadataSources(registry)
-                        .addAnnotatedClass(User.class)
-                        .buildMetadata()
-                        .buildSessionFactory();
+        this.sessionFactory = new MetadataSources(registry)
+                .addAnnotatedClass(User.class)
+                .buildMetadata()
+                .buildSessionFactory();
+    }
 
-            }catch (Exception e){
-                System.out.println("Ошибка инициализации SessionFactory: " + e);
-                log.error("Ошибка инициализации SessionFactory: {}", e.getMessage());
-            }
-        }
+    public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 }

@@ -5,6 +5,7 @@ import com.hibernateapp.dao.UserDAOImpl;
 import com.hibernateapp.exception.*;
 import com.hibernateapp.model.User;
 import com.hibernateapp.service.UserService;
+import com.hibernateapp.util.HibernateSessionFactoryUtil;
 
 import java.util.List;
 import java.util.Scanner;
